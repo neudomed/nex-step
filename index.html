@@ -1,559 +1,1489 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>NEX STEP™ – Avaliação Neurocientífica</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-/* ============================
-   ESTILO GERAL – NEX STEP™
-   ============================ */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0; padding: 0;
-    background: #f4f6f9;
-    color: #222;
-}
-header {
-    background: #0d1e3f;
-    color: white;
-    text-align: center;
-    padding: 20px;
-}
-button {
-    background: #0d1e3f;
-    color: white;
-    padding: 12px 22px;
-    border: none;
-    border-radius: 6px;
-    font-size: 17px;
-    cursor: pointer;
-    margin: 10px 0;
-}
-button:hover { background: #132b57; }
-.container {
-    width: 94%; max-width: 900px;
-    margin: auto;
-    padding: 20px;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEX STEP PRO - Avaliação Neurocomportamental Completa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-/* Centralização de testes */
-.test-box {
-    text-align: center;
-    padding: 40px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #00000020;
-    margin-top: 25px;
-}
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --dark: #343a40;
+            --light: #f8f9fa;
+        }
 
-/* Quadrados – Teste de Tempo de Reação */
-#stimulus {
-    width: 150px; height: 150px;
-    background: red; /* muda para verde no clique */
-    margin: 40px auto;
-    border-radius: 12px;
-    display: none;
-}
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-/* Deck Iowa Gambling */
-.deck-container { display: flex; justify-content: space-between; margin: 20px; }
-.deck {
-    width: 22%;
-    padding: 20px;
-    background: #e3e3e3;
-    border-radius: 10px;
-    text-align: center;
-    cursor: pointer;
-}
-.deck:hover { background: #d2d2d2; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
 
-/* Resultados */
-.result-block {
-    background: white;
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #00000020;
-}
-</style>
+        .screen {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+        }
+
+        .active {
+            display: block;
+        }
+
+        h1 {
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 10px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .test-card {
+            background: var(--light);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 3px solid #e9ecef;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .test-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .test-card.completed {
+            background: #d4edda;
+            border-color: var(--success);
+        }
+
+        .test-card .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--success);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+
+        .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .stimulus {
+            font-size: 4em;
+            text-align: center;
+            margin: 40px 0;
+            padding: 40px;
+            background: var(--light);
+            border-radius: 15px;
+            border: 3px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .stroop-stimulus {
+            font-size: 3em;
+            font-weight: bold;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .score {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transition: width 0.5s;
+            border-radius: 10px;
+        }
+
+        .radar-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--light);
+            border-radius: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .instruction-box {
+            background: #e3f2fd;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 5px solid #2196f3;
+        }
+
+        .timer {
+            font-size: 1.3em;
+            color: var(--dark);
+            text-align: center;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .neuro-fact {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .color-key {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 10px 0;
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <!-- Tela de Boas-Vindas -->
+        <div id="welcome-screen" class="screen active">
+            <h1>🧠 NEX STEP PRO</h1>
+            <p style="text-align: center; font-size: 1.2em; color: #666; margin-bottom: 30px;">
+                Avaliação Neurocomportamental Completa - 7 Testes Científicos
+            </p>
+            
+            <div class="instruction-box">
+                <h3>🎯 Avaliação Completa em 5 Pilares Cognitivos</h3>
+                <p>Baseado em evidências da neurociência cognitiva, esta ferramenta avalia seu funcionamento cerebral em tempo real.</p>
+                
+                <div class="neuro-fact">
+                    <strong>💡 Fato Neurocientífico:</strong> Seu cérebro processa informações a 120m/s - mais rápido que um carro de F1!
+                </div>
+            </div>
 
-<header>
-    <h1>NEX STEP™</h1>
-    <p>Avaliação Neurocientífica Completa (v1.0)</p>
-</header>
+            <div class="test-grid">
+                <div class="test-card">
+                    <div class="icon">⚡</div>
+                    <h4>N1 - Atenção e Velocidade</h4>
+                    <p>• Tempo de Reação<br>• Atenção Sustentada (CPT)</p>
+                </div>
+                <div class="test-card">
+                    <div class="icon">💭</div>
+                    <h4>N2 - Controle Executivo</h4>
+                    <p>• Memória N-Back<br>• Controle Inibitório (Stroop)</p>
+                </div>
+                <div class="test-card">
+                    <div class="icon">🎯</div>
+                    <h4>N3 - Tomada de Decisão</h4>
+                    <p>• Iowa Gambling Task<br>• Regulação Emocional</p>
+                </div>
+                <div class="test-card">
+                    <div class="icon">💬</div>
+                    <h4>N4 - Processamento Verbal</h4>
+                    <p>• Decisão Lexical<br>• Velocidade de Leitura</p>
+                </div>
+                <div class="test-card">
+                    <div class="icon">📊</div>
+                    <h4>N5 - Habilidades Espaciais</h4>
+                    <p>• Rotação Mental<br>• Memória Espacial</p>
+                </div>
+            </div>
 
-<div class="container" id="mainMenu">
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="startAssessment()">🚀 INICIAR AVALIAÇÃO COMPLETA</button>
+                <p style="color: #666; margin-top: 15px;">Tempo estimado: 20-30 minutos</p>
+            </div>
+        </div>
 
-    <h2>Início da Avaliação</h2>
-    <p>Serão aplicados 5 módulos neurocientíficos baseados nos pilares N1 a N5.</p>
+        <!-- Tela de Seleção de Testes -->
+        <div id="test-selection" class="screen">
+            <h2>🧪 Bateria de Testes Neurocientíficos</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">
+                Complete os 7 testes para gerar seu perfil neurocomportamental completo
+            </p>
 
-    <button onclick="startN1()">Iniciar Teste N1 – Tempo de Reação</button>
-</div>
+            <div class="progress-bar">
+                <div id="global-progress" class="progress" style="width: 0%"></div>
+            </div>
+            <div style="text-align: center; color: #666; margin-bottom: 20px;">
+                <span id="progress-text">0% Completo</span>
+            </div>
 
-<!-- ============================================================
-     =======================  TESTE N1  ==========================
-     ============================================================ -->
-<div class="container" id="testN1" style="display:none;">
-    <h2>N1 – Tempo de Reação</h2>
-    <div class="test-box">
-        <p>Quando o quadrado ficar VERDE, clique nele o mais rápido possível.</p>
-        <div id="stimulus"></div>
-        <button onclick="nextN1Trial()">Iniciar</button>
-        <p id="n1-info"></p>
+            <div class="test-grid">
+                <div class="test-card" onclick="startTest('n1-reaction')" id="test-n1-reaction">
+                    <div class="icon">⏱️</div>
+                    <h4>Tempo de Reação</h4>
+                    <p>Velocidade de processamento neural</p>
+                    <div class="status">N1 - Atenção</div>
+                </div>
+
+                <div class="test-card" onclick="startTest('n1-cpt')" id="test-n1-cpt">
+                    <div class="icon">🎯</div>
+                    <h4>Atenção Sustentada (CPT)</h4>
+                    <p>Foco contínuo e vigilância</p>
+                    <div class="status">N1 - Atenção</div>
+                </div>
+
+                <div class="test-card" onclick="startTest('n2-nback')" id="test-n2-nback">
+                    <div class="icon">🔢</div>
+                    <h4>Memória N-Back</h4>
+                    <p>Memória operacional e atualização</p>
+                    <div class="status">N2 - Executivo</div>
+                </div>
+
+                <div class="test-card" onclick="startTest('n2-stroop')" id="test-n2-stroop">
+                    <div class="icon">🎨</div>
+                    <h4>Teste de Stroop</h4>
+                    <p>Controle inibitório e interferência</p>
+                    <div class="status">N2 - Executivo</div>
+                </div>
+
+                <div class="test-card" onclick="startTest('n3-gambling')" id="test-n3-gambling">
+                    <div class="icon">🎰</div>
+                    <h4>Tomada de Decisão</h4>
+                    <p>Risco e recompensa emocional</p>
+                    <div class="status">N3 - Decisão</div>
+                </div>
+
+                <div class="test-card" onclick="startTest('n4-lexical')" id="test-n4-lexical">
+                    <div class="icon">📝</div>
+                    <h4>Decisão Lexical</h4>
+                    <p>Processamento verbal e semântico</p>
+                    <div class="status">N4 - Linguagem</div>
+                </div>
+
+                <div class="test-card" onclick="startTest('n5-rotation')" id="test-n5-rotation">
+                    <div class="icon">🔄</div>
+                    <h4>Rotação Mental</h4>
+                    <p>Habilidades visuoespaciais 3D</p>
+                    <div class="status">N5 - Espacial</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn" onclick="calculateResults()" id="results-btn" disabled>📊 GERAR RELATÓRIO COMPLETO</button>
+                <p id="completion-message" style="color: #666; margin-top: 10px; display: none;">
+                    ✅ Todos os testes completos! Pronto para análise.
+                </p>
+            </div>
+        </div>
+
+        <!-- Container para Todos os Testes -->
+        <div id="test-container" class="screen">
+            <div id="test-content"></div>
+        </div>
+
+        <!-- Tela de Resultados -->
+        <div id="results-screen" class="screen">
+            <h1>📈 Seu Relatório NEX STEP PRO</h1>
+            
+            <div class="result-card">
+                <h3>NGES - Neural Global Efficiency Score</h3>
+                <div class="score" id="nges-score">-</div>
+                <div id="nges-classification" style="font-size: 1.3em; font-weight: 600;"></div>
+                <div id="nges-description" style="margin-top: 10px;"></div>
+            </div>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <h4>⚡ N1 - Atenção</h4>
+                    <div class="score" id="n1-score">-</div>
+                    <div id="n1-percentile"></div>
+                </div>
+                <div class="result-card">
+                    <h4>💭 N2 - Executivo</h4>
+                    <div class="score" id="n2-score">-</div>
+                    <div id="n2-percentile"></div>
+                </div>
+                <div class="result-card">
+                    <h4>🎯 N3 - Decisão</h4>
+                    <div class="score" id="n3-score">-</div>
+                    <div id="n3-percentile"></div>
+                </div>
+                <div class="result-card">
+                    <h4>💬 N4 - Linguagem</h4>
+                    <div class="score" id="n4-score">-</div>
+                    <div id="n4-percentile"></div>
+                </div>
+                <div class="result-card">
+                    <h4>📊 N5 - Espacial</h4>
+                    <div class="score" id="n5-score">-</div>
+                    <div id="n5-percentile"></div>
+                </div>
+            </div>
+
+            <!-- Análise Detalhada -->
+            <div id="detailed-analysis" style="margin-top: 40px;">
+                <h3>🔍 Análise Detalhada por Pilar</h3>
+                <div id="analysis-content"></div>
+            </div>
+
+            <!-- Tabela de Comparação -->
+            <div style="margin-top: 40px;">
+                <h3>📋 Desempenho por Teste</h3>
+                <table class="comparison-table" id="test-comparison">
+                    <thead>
+                        <tr>
+                            <th>Teste</th>
+                            <th>Escore</th>
+                            <th>Classificação</th>
+                            <th>Detalhes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="test-comparison-body">
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn btn-success" onclick="downloadPDF()">📥 BAIXAR RELATÓRIO COMPLETO</button>
+                <button class="btn btn-secondary" onclick="restartAssessment()">🔄 NOVA AVALIAÇÃO</button>
+            </div>
+        </div>
     </div>
-</div>
-
-<!-- ============================================================
-     =======================  TESTE N2  ==========================
-     ============================================================ -->
-<div class="container" id="testN2" style="display:none;">
-    <h2>N2 – N-Back (1-back e 2-back)</h2>
-    <div class="test-box">
-        <p id="n2-instructions">Aguarde…</p>
-        <h1 id="n2-letter" style="font-size:70px;">–</h1>
-        <button onclick="n2Yes()">IGUAL</button>
-        <button onclick="n2No()">DIFERENTE</button>
-        <p id="n2-progress"></p>
-    </div>
-</div>
-
-<!-- ============================================================
-     =======================  TESTE N3  ==========================
-     ============================================================ -->
-<div class="container" id="testN3" style="display:none;">
-    <h2>N3 – Iowa Gambling Adaptado</h2>
-    <p>Escolha repetidamente um dos quatro baralhos. Alguns são arriscados, outros são seguros.</p>
-    <div class="deck-container">
-        <div class="deck" onclick="chooseDeck('A')">A</div>
-        <div class="deck" onclick="chooseDeck('B')">B</div>
-        <div class="deck" onclick="chooseDeck('C')">C</div>
-        <div class="deck" onclick="chooseDeck('D')">D</div>
-    </div>
-    <p id="n3-feedback"></p>
-    <p id="n3-count"></p>
-</div>
-
-<script>
-/* ============================================================
-   =========================  N1 – TEMPO DE REAÇÃO  ==========
-   ============================================================ */
-
-let n1Trial = 0;
-let n1Times = [];
-let n1Start = 0;
-
-function startN1(){
-    document.getElementById("mainMenu").style.display = "none";
-    document.getElementById("testN1").style.display = "block";
-    document.getElementById("n1-info").innerHTML = "Clique em Iniciar.";
-}
-
-function nextN1Trial(){
-    if(n1Trial >= 10){
-        finishN1();
-        return;
-    }
-
-    document.getElementById("stimulus").style.display = "none";
-    document.getElementById("n1-info").innerHTML = "Aguarde...";
-    
-    let delay = Math.random()*2000 + 800;
-    setTimeout(()=>{
-        let stim = document.getElementById("stimulus");
-        stim.style.background = "green";
-        stim.style.display = "block";
-        n1Start = performance.now();
-        stim.onclick = recordN1;
-    }, delay);
-
-    n1Trial++;
-}
-
-function recordN1(){
-    let rt = performance.now() - n1Start;
-    n1Times.push(rt);
-    document.getElementById("stimulus").style.display = "none";
-    document.getElementById("n1-info").innerHTML = "Tempo: " + Math.round(rt) + " ms";
-}
-
-function finishN1(){
-    let avg = n1Times.reduce((a,b)=>a+b,0)/n1Times.length;
-    let sd = Math.sqrt(n1Times.map(t=>(t-avg)**2).reduce((a,b)=>a+b)/n1Times.length);
-
-    let score = Math.max(0, Math.min(100, 100 - ((avg/4)+(sd/2)) ));
-
-    localStorage.setItem("N1_score", score);
-
-    alert("N1 concluído! Pontuação: " + Math.round(score));
-    startN2();
-}
-
-/* ============================================================
-   ============================  N2 – N BACK  ==================
-   ============================================================ */
-
-let n2Index = 0;
-let n2Trials = [];
-let n2Level = 1;  
-let n2Letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-function startN2(){
-    document.getElementById("testN1").style.display = "none";
-    document.getElementById("testN2").style.display = "block";
-    document.getElementById("n2-instructions").innerHTML = "Quando aparecer uma letra, responda se ela é igual à de 1 passo atrás (1-back).";
-    startN2Trial();
-}
-
-function startN2Trial(){
-    if(n2Index === 20){
-        finishN2();
-        return;
-    }
-
-    let letter = n2Letters[Math.floor(Math.random()*26)];
-    document.getElementById("n2-letter").innerHTML = letter;
-
-    n2Trials.push(letter);
-    document.getElementById("n2-progress").innerHTML = "Trial: " + (n2Index+1) + " / 20";
-
-    if(n2Index == 10){
-        n2Level = 2;
-        document.getElementById("n2-instructions").innerHTML = "Agora é 2-back!";
-    }
-
-    n2Index++;
-}
-
-function n2Yes(){ evaluateN2(true); }
-function n2No(){ evaluateN2(false); }
-
-function evaluateN2(answer){
-    let correct = false;
-    if(n2Level == 1 && n2Index>1){
-        correct = (n2Trials[n2Index-1] == n2Trials[n2Index-2]);
-    }
-    if(n2Level == 2 && n2Index>2){
-        correct = (n2Trials[n2Index-1] == n2Trials[n2Index-3]);
-    }
-    if(correct == answer){
-        localStorage.n2Correct = (Number(localStorage.n2Correct)||0)+1;
-    }
-    startN2Trial();
-}
-
-function finishN2(){
-    let correct = Number(localStorage.n2Correct)||0;
-    let score = correct*5;
-    localStorage.setItem("N2_score", score);
-
-    alert("N2 concluído! Pontuação: " + score);
-    startN3();
-}
-
-/* ============================================================
-   ====================== N3 – IOWA GAMBLING ==================
-   ============================================================ */
-
-let n3Count = 0;
-let advantageous = 0;
-
-function startN3(){
-    document.getElementById("testN2").style.display = "none";
-    document.getElementById("testN3").style.display = "block";
-    document.getElementById("n3-count").innerHTML = "Escolhas: 0 / 40";
-}
-
-function chooseDeck(deck){
-    if(n3Count >= 40){
-        finishN3();
-        return;
-    }
-
-    let good = (deck=="C"||deck=="D");
-    if(good) advantageous++;
-
-    n3Count++;
-    document.getElementById("n3-count").innerHTML = "Escolhas: " + n3Count + " / 40";
-}
-
-function finishN3(){
-    let score = (advantageous/40)*100;
-    localStorage.setItem("N3_score", score);
-
-    alert("N3 concluído! Pontuação: " + Math.round(score));
-
-    alert("PARTE 1 concluída. Aguarde PARTE 2.");
-}
-</script>
-
-</body>
-</html>
-<!-- ============================================================
-     =======================  TESTE N4  ==========================
-     ============================================================ -->
-
-<div class="container" id="testN4" style="display:none;">
-    <h2>N4 – Decisão Lexical</h2>
-    <div class="test-box">
-        <p>É uma PALAVRA real?</p>
-        <h1 id="n4-stimulus" style="font-size:65px;">–</h1>
-        <button onclick="n4Answer(true)">SIM</button>
-        <button onclick="n4Answer(false)">NÃO</button>
-        <p id="n4-progress"></p>
-    </div>
-</div>
-
-<!-- ============================================================
-     =======================  TESTE N5  ==========================
-     ============================================================ -->
-
-<div class="container" id="testN5" style="display:none;">
-    <h2>N5 – Rotação Mental</h2>
-    <div class="test-box">
-        <p>A imagem da direita é a MESMA (apenas rotacionada)?</p>
-        <img id="n5-img1" src="" width="140">
-        <img id="n5-img2" src="" width="140" style="margin-left:25px;">
-        <br><br>
-        <button onclick="n5Answer(true)">IGUAL</button>
-        <button onclick="n5Answer(false)">DIFERENTE</button>
-        <p id="n5-progress"></p>
-    </div>
-</div>
-
-<!-- ============================================================
-     ===================  RELATÓRIO FINAL NEX STEP  =============
-     ============================================================ -->
-
-<div class="container" id="finalReport" style="display:none;">
-    <h2>Relatório Final – NEX STEP™</h2>
-    <div class="result-block">
-        <canvas id="radar" width="400" height="350"></canvas>
-        <p id="reportText"></p>
-        <button onclick="window.print()">Download PDF</button>
-    </div>
-</div>
-
-<script>
-/* ============================================================
-   =====================  N4 – DECISÃO LEXICAL  ===============
-   ============================================================ */
-
-let n4Words = [
-    "CASA","PATO","VERDE","MESA","RUA",
-    "LIVRO","CARRO","FLORESTA","OLHO","MUNDO"
-];
-
-let n4Pseudo = [
-    "TREMO","BARFI","SULEN","DROPA","GRILE",
-    "NARPU","TAVO","CLEMOR","FURPA","NECTO"
-];
-
-let n4Trials = [];
-let n4Index = 0;
-let n4Correct = 0;
-let n4Start = 0;
-
-function startN4(){
-    document.getElementById("testN3").style.display = "none";
-    document.getElementById("testN4").style.display = "block";
-
-    // Gera lista aleatória
-    for(let i=0;i<15;i++){
-        n4Trials.push({word: n4Words[Math.floor(Math.random()*10)], real:true});
-        n4Trials.push({word: n4Pseudo[Math.floor(Math.random()*10)], real:false});
-    }
-    shuffle(n4Trials);
-
-    showN4Trial();
-}
-
-function showN4Trial(){
-    if(n4Index>=30){
-        finishN4();
-        return;
-    }
-    document.getElementById("n4-progress").innerHTML = 
-        "Trial " + (n4Index+1) + " / 30";
-
-    let stim = n4Trials[n4Index].word;
-    document.getElementById("n4-stimulus").innerHTML = stim;
-
-    n4Start = performance.now();
-}
-
-function n4Answer(ans){
-    let trial = n4Trials[n4Index];
-    let correct = (ans === trial.real);
-    if(correct) n4Correct++;
-
-    n4Index++;
-    showN4Trial();
-}
-
-function finishN4(){
-    let score = (n4Correct/30)*100;
-    localStorage.setItem("N4_score", score);
-    alert("N4 concluído! Pontuação: " + Math.round(score));
-    startN5();
-}
-
-/* ============================================================
-   =====================  N5 – ROTAÇÃO MENTAL  =================
-   ============================================================ */
-
-// 6 pares de imagens 3D em base64 extremamente simples
-let n5Pairs = [
-    {img1:"data:image/png;base64,iVBORw0...", img2:"data:image/png;base64,iVBORw0...", same:true},
-    {img1:"data:image/png;base64,iVBORw0...", img2:"data:image/png;base64,iVBORw0...", same:false},
-    /* OBS: Para demonstração real, substituir por imagens reais de blocos 3D.
-       Aqui simplificado pois imagens base64 completas são longas demais.
-    */
-];
-
-let n5Index = 0;
-let n5Correct = 0;
-let n5Start = 0;
-
-function startN5(){
-    document.getElementById("testN4").style.display = "none";
-    document.getElementById("testN5").style.display = "block";
-    shuffle(n5Pairs);
-    showN5Trial();
-}
-
-function showN5Trial(){
-    if(n5Index>=n5Pairs.length){
-        finishN5();
-        return;
-    }
-
-    let p = n5Pairs[n5Index];
-    document.getElementById("n5-img1").src = p.img1;
-    document.getElementById("n5-img2").src = p.img2;
-
-    n5Start = performance.now();
-    document.getElementById("n5-progress").innerHTML =
-        "Trial " + (n5Index+1) + " / " + n5Pairs.length;
-}
-
-function n5Answer(ans){
-    let p = n5Pairs[n5Index];
-    if(ans === p.same) n5Correct++;
-    n5Index++;
-    showN5Trial();
-}
-
-function finishN5(){
-    let score = (n5Correct/n5Pairs.length)*100;
-    localStorage.setItem("N5_score", score);
-    alert("N5 concluído! Pontuação: " + Math.round(score));
-    generateReport();
-}
-
-/* ============================================================
-   ===================== RADAR CHART / RESULTADOS =============
-   ============================================================ */
-
-function generateReport(){
-    document.getElementById("testN5").style.display = "none";
-    document.getElementById("finalReport").style.display = "block";
-
-    let N1 = Number(localStorage.getItem("N1_score"));
-    let N2 = Number(localStorage.getItem("N2_score"));
-    let N3 = Number(localStorage.getItem("N3_score"));
-    let N4 = Number(localStorage.getItem("N4_score"));
-    let N5 = Number(localStorage.getItem("N5_score"));
-
-    // ===============================
-    //   NGES – Média Geométrica
-    // ===============================
-    let NGES = Math.pow(N1*N2*N3*N4*N5, 1/5);
-
-    let classif = "";
-    if(NGES>=80) classif="OTIMIZADO";
-    else if(NGES>=70) classif="FUNCIONAL FORTE";
-    else if(NGES>=60) classif="FUNCIONAL";
-    else if(NGES>=40) classif="VULNERÁVEL";
-    else classif="DEFICITÁRIO";
-
-    // ===============================
-    //   TEXTO DO RELATÓRIO
-    // ===============================
-    let text = `
-        <b>NGES (Índice Global de Eficiência Neural):</b> ${NGES.toFixed(1)}<br>
-        <b>Classificação:</b> ${classif}<br><br>
-        <b>Pilares:</b><br>
-        N1 Atenção: ${N1.toFixed(1)}<br>
-        N2 Funções Executivas: ${N2.toFixed(1)}<br>
-        N3 Decisão Emocional: ${N3.toFixed(1)}<br>
-        N4 Linguagem: ${N4.toFixed(1)}<br>
-        N5 Visuoespacial: ${N5.toFixed(1)}<br><br>
-    `;
-    document.getElementById("reportText").innerHTML = text;
-
-    drawRadar([N1,N2,N3,N4,N5]);
-}
-
-/* ============================================================
-   ======================== RADAR CANVAS =======================
-   ============================================================ */
-
-function drawRadar(values){
-    let ctx = document.getElementById("radar").getContext("2d");
-    let cx = 200, cy = 170, radius = 120;
-    let labels = ["N1","N2","N3","N4","N5"];
-
-    ctx.clearRect(0,0,400,350);
-
-    // Eixos
-    for(let i=0;i<5;i++){
-        let angle = (Math.PI*2/5)*i - Math.PI/2;
-        let x = cx + Math.cos(angle)*radius;
-        let y = cy + Math.sin(angle)*radius;
-
-        ctx.beginPath();
-        ctx.moveTo(cx,cy);
-        ctx.lineTo(x,y);
-        ctx.strokeStyle="#999";
-        ctx.stroke();
-
-        ctx.fillText(labels[i], x, y);
-    }
-
-    // Forma preenchida
-    ctx.beginPath();
-    for(let i=0;i<5;i++){
-        let val = values[i]/100;
-        let angle = (Math.PI*2/5)*i - Math.PI/2;
-        let x = cx + Math.cos(angle)*radius*val;
-        let y = cy + Math.sin(angle)*radius*val;
-
-        if(i==0) ctx.moveTo(x,y);
-        else ctx.lineTo(x,y);
-    }
-    ctx.closePath();
-    ctx.fillStyle="rgba(0,100,200,0.4)";
-    ctx.fill();
-    ctx.strokeStyle="#0d1e3f";
-    ctx.lineWidth=2;
-    ctx.stroke();
-}
-
-/* ============================================================
-   ============================ UTILS ==========================
-   ============================================================ */
-
-function shuffle(arr){
-    for(let i=arr.length-1;i>0;i--){
-        let j = Math.floor(Math.random()*(i+1));
-        [arr[i],arr[j]]=[arr[j],arr[i]];
-    }
-}
-</script>
 
+    <script>
+        // =============================================
+        // DADOS E CONFIGURAÇÕES
+        // =============================================
+        let participantData = {
+            tests: {},
+            scores: {},
+            startTime: new Date(),
+            demographic: {}
+        };
+
+        // =============================================
+        // FUNÇÕES PRINCIPAIS
+        // =============================================
+        function startAssessment() {
+            document.getElementById('welcome-screen').classList.remove('active');
+            document.getElementById('test-selection').classList.add('active');
+            updateProgress();
+        }
+
+        function startTest(testType) {
+            document.getElementById('test-selection').classList.remove('active');
+            document.getElementById('test-container').classList.add('active');
+            
+            const testContent = document.getElementById('test-content');
+            testContent.innerHTML = '';
+
+            switch(testType) {
+                case 'n1-reaction':
+                    loadReactionTest();
+                    break;
+                case 'n1-cpt':
+                    loadCPTTest();
+                    break;
+                case 'n2-nback':
+                    loadNBackTest();
+                    break;
+                case 'n2-stroop':
+                    loadStroopTest();
+                    break;
+                case 'n3-gambling':
+                    loadGamblingTest();
+                    break;
+                case 'n4-lexical':
+                    loadLexicalTest();
+                    break;
+                case 'n5-rotation':
+                    loadRotationTest();
+                    break;
+            }
+        }
+
+        // =============================================
+        // TESTE N1 - TEMPO DE REAÇÃO
+        // =============================================
+        function loadReactionTest() {
+            const testHTML = `
+                <h2>⚡ Teste de Tempo de Reação</h2>
+                <div class="instruction-box">
+                    <p><strong>Instruções:</strong> Clique no botão quando a tela ficar VERDE. Responda o mais rápido possível!</p>
+                    <p>🔬 <em>Este teste mede a velocidade de transmissão neural entre olho e mão.</em></p>
+                </div>
+                <div id="reaction-stimulus" class="stimulus" style="background-color: #dc3545; color: white; cursor: pointer;">
+                    🔴 AGUARDE O VERDE...
+                </div>
+                <div style="text-align: center;">
+                    <button class="btn" onclick="startReactionTrial()">🎬 INICIAR TESTE (10 tentativas)</button>
+                    <div id="reaction-results" style="text-align: center; margin-top: 20px; font-size: 1.1em;"></div>
+                </div>
+            `;
+            document.getElementById('test-content').innerHTML = testHTML;
+        }
+
+        let reactionTimes = [];
+        let reactionStartTime;
+        let reactionTrials = 0;
+        const maxReactionTrials = 10;
+
+        function startReactionTrial() {
+            if (reactionTrials >= maxReactionTrials) {
+                finishReactionTest();
+                return;
+            }
+
+            const stimulus = document.getElementById('reaction-stimulus');
+            const results = document.getElementById('reaction-results');
+            
+            // Preparação
+            stimulus.style.backgroundColor = '#dc3545';
+            stimulus.textContent = "🔴 AGUARDE O VERDE...";
+            stimulus.onclick = null;
+
+            // Tempo aleatório antes do verde (1-4 segundos)
+            const waitTime = 1000 + Math.random() * 3000;
+            
+            setTimeout(() => {
+                stimulus.style.backgroundColor = '#28a745';
+                stimulus.textContent = "🟢 CLIQUE AGORA!";
+                reactionStartTime = Date.now();
+
+                // Registrar clique
+                stimulus.onclick = function() {
+                    const reactionTime = Date.now() - reactionStartTime;
+                    reactionTimes.push(reactionTime);
+                    reactionTrials++;
+                    
+                    results.innerHTML = `
+                        <p>⏱️ <strong>Tempo:</strong> ${reactionTime}ms</p>
+                        <p>📊 <strong>Progresso:</strong> ${reactionTrials}/${maxReactionTrials}</p>
+                        <p>📈 <strong>Média atual:</strong> ${calculateAverage(reactionTimes)}ms</p>
+                    `;
+
+                    if (reactionTrials < maxReactionTrials) {
+                        setTimeout(startReactionTrial, 1000);
+                    } else {
+                        finishReactionTest();
+                    }
+                };
+            }, waitTime);
+        }
+
+        function calculateAverage(times) {
+            return Math.round(times.reduce((a, b) => a + b, 0) / times.length);
+        }
+
+        function finishReactionTest() {
+            const avgTime = calculateAverage(reactionTimes);
+            // Converter tempo em score (menor tempo = maior score)
+            const score = Math.max(0, 100 - (avgTime / 8));
+            
+            participantData.tests['n1-reaction'] = {
+                averageTime: avgTime,
+                trials: reactionTimes.length,
+                score: Math.round(score),
+                rawData: reactionTimes,
+                interpretation: getReactionInterpretation(avgTime)
+            };
+
+            finishTest('n1-reaction');
+        }
+
+        function getReactionInterpretation(time) {
+            if (time < 200) return "Excepcionalmente rápido";
+            if (time < 280) return "Acima da média";
+            if (time < 350) return "Na média";
+            if (time < 450) return "Abaixo da média";
+            return "Necessita atenção";
+        }
+
+        // =============================================
+        // TESTE N1 - ATENÇÃO SUSTENTADA (CPT)
+        // =============================================
+        function loadCPTTest() {
+            const testHTML = `
+                <h2>🎯 Teste de Atenção Sustentada (CPT)</h2>
+                <div class="instruction-box">
+                    <p><strong>Instruções:</strong> Pressione ESPAÇO apenas quando vir a letra <strong>X</strong> seguida de <strong>A</strong>.</p>
+                    <p>⚠️ <em>Ignore outras letras e combinações. Teste de 1 minuto.</em></p>
+                </div>
+                <div id="cpt-stimulus" class="stimulus">-</div>
+                <div style="text-align: center;">
+                    <p>⏱️ <strong>Tempo:</strong> <span id="cpt-timer">01:00</span></p>
+                    <p>✅ <strong>Acertos:</strong> <span id="cpt-correct">0</span> | ❌ <strong>Erros:</strong> <span id="cpt-errors">0</span></p>
+                    <button class="btn" onclick="startCPTTest()">🎬 INICIAR TESTE</button>
+                </div>
+            `;
+            document.getElementById('test-content').innerHTML = testHTML;
+        }
+
+        let cptSequence = [];
+        let cptPosition = 0;
+        let cptCorrect = 0;
+        let cptErrors = 0;
+        let cptTimer;
+        let cptTimeLeft = 60;
+
+        function startCPTTest() {
+            // Gerar sequência de letras com alguns targets (XA)
+            cptSequence = generateCPTSequence(60, 0.15);
+            cptPosition = 0;
+            cptCorrect = 0;
+            cptErrors = 0;
+            cptTimeLeft = 60;
+
+            document.addEventListener('keydown', handleCPTKey);
+            startCPTTimer();
+            showNextCPTStimulus();
+        }
+
+        function generateCPTSequence(length, targetProbability) {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let sequence = [];
+            let lastLetter = '';
+            
+            for (let i = 0; i < length; i++) {
+                if (lastLetter === 'X' && Math.random() < targetProbability) {
+                    sequence.push('A'); // Target
+                } else {
+                    sequence.push(letters[Math.floor(Math.random() * letters.length)]);
+                }
+                lastLetter = sequence[i];
+            }
+            return sequence;
+        }
+
+        function startCPTTimer() {
+            cptTimer = setInterval(() => {
+                cptTimeLeft--;
+                const minutes = Math.floor(cptTimeLeft / 60);
+                const seconds = cptTimeLeft % 60;
+                document.getElementById('cpt-timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (cptTimeLeft <= 0) {
+                    finishCPTTest();
+                }
+            }, 1000);
+        }
+
+        function showNextCPTStimulus() {
+            if (cptPosition >= cptSequence.length || cptTimeLeft <= 0) {
+                return;
+            }
+            
+            const stimulus = document.getElementById('cpt-stimulus');
+            stimulus.textContent = cptSequence[cptPosition];
+            
+            setTimeout(() => {
+                cptPosition++;
+                if (cptPosition < cptSequence.length && cptTimeLeft > 0) {
+                    showNextCPTStimulus();
+                }
+            }, 1000);
+        }
+
+        function handleCPTKey(event) {
+            if (event.code === 'Space') {
+                const isTarget = cptPosition > 0 && 
+                               cptSequence[cptPosition - 1] === 'X' && 
+                               cptSequence[cptPosition] === 'A';
+                
+                if (isTarget) {
+                    cptCorrect++;
+                } else {
+                    cptErrors++;
+                }
+
+                document.getElementById('cpt-correct').textContent = cptCorrect;
+                document.getElementById('cpt-errors').textContent = cptErrors;
+            }
+        }
+
+        function finishCPTTest() {
+            clearInterval(cptTimer);
+            document.removeEventListener('keydown', handleCPTKey);
+            
+            const totalTargets = cptSequence.filter((letter, index) => 
+                index > 0 && cptSequence[index-1] === 'X' && letter === 'A'
+            ).length;
+            
+            const accuracy = totalTargets > 0 ? (cptCorrect / totalTargets) : 0;
+            const score = accuracy * 100;
+            
+            participantData.tests['n1-cpt'] = {
+                correct: cptCorrect,
+                errors: cptErrors,
+                totalTargets: totalTargets,
+                accuracy: accuracy,
+                score: Math.round(score),
+                duration: 60 - cptTimeLeft
+            };
+
+            finishTest('n1-cpt');
+        }
+
+        // =============================================
+        // TESTE N2 - N-BACK
+        // =============================================
+        function loadNBackTest() {
+            const testHTML = `
+                <h2>🔢 Teste N-Back</h2>
+                <div class="instruction-box">
+                    <p><strong>Instruções:</strong> Pressione ESPAÇO quando a letra atual for igual à de 2 posições atrás.</p>
+                    <p>🎯 <em>Teste de memória operacional e atualização mental.</em></p>
+                </div>
+                <div id="nback-stimulus" class="stimulus">-</div>
+                <div style="text-align: center;">
+                    <p>✅ <strong>Acertos:</strong> <span id="nback-correct">0</span> | ❌ <strong>Erros:</strong> <span id="nback-errors">0</span></p>
+                    <p>📊 <strong>Progresso:</strong> <span id="nback-progress">0/20</span></p>
+                    <button class="btn" onclick="startNBackTest()">🎬 INICIAR TESTE</button>
+                </div>
+            `;
+            document.getElementById('test-content').innerHTML = testHTML;
+        }
+
+        let nbackSequence = [];
+        let nbackPosition = 0;
+        let nbackCorrect = 0;
+        let nbackErrors = 0;
+
+        function startNBackTest() {
+            // Gerar sequência com 30% de matches
+            nbackSequence = generateNBackSequence(20, 0.3);
+            nbackPosition = 0;
+            nbackCorrect = 0;
+            nbackErrors = 0;
+
+            document.addEventListener('keydown', handleNBackKey);
+            showNextNBackStimulus();
+        }
+
+        function generateNBackSequence(length, matchProbability) {
+            const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            let sequence = [];
+            
+            for (let i = 0; i < length; i++) {
+                if (i >= 2 && Math.random() < matchProbability) {
+                    sequence.push(sequence[i - 2]);
+                } else {
+                    sequence.push(letters[Math.floor(Math.random() * letters.length)]);
+                }
+            }
+            return sequence;
+        }
+
+        function showNextNBackStimulus() {
+            if (nbackPosition >= nbackSequence.length) {
+                finishNBackTest();
+                return;
+            }
+            
+            const stimulus = document.getElementById('nback-stimulus');
+            stimulus.textContent = nbackSequence[nbackPosition];
+            document.getElementById('nback-progress').textContent = `${nbackPosition + 1}/20`;
+
+            setTimeout(() => {
+                nbackPosition++;
+                showNextNBackStimulus();
+            }, 2000);
+        }
+
+        function handleNBackKey(event) {
+            if (event.code === 'Space') {
+                const shouldMatch = nbackPosition >= 2 && 
+                                   nbackSequence[nbackPosition] === nbackSequence[nbackPosition - 2];
+                
+                if (shouldMatch) {
+                    nbackCorrect++;
+                } else {
+                    nbackErrors++;
+                }
+
+                document.getElementById('nback-correct').textContent = nbackCorrect;
+                document.getElementById('nback-errors').textContent = nbackErrors;
+            }
+        }
+
+        function finishNBackTest() {
+            document.removeEventListener('keydown', handleNBackKey);
+            
+            const accuracy = nbackCorrect / (nbackSequence.length - 2);
+            const score = accuracy * 100;
+            
+            participantData.tests['n2-nback'] = {
+                correct: nbackCorrect,
+                errors: nbackErrors,
+                totalTrials: nbackSequence.length,
+                accuracy: accuracy,
+                score: Math.round(score)
+            };
+
+            finishTest('n2-nback');
+        }
+
+        // =============================================
+        // TESTE N2 - STROOP
+        // =============================================
+        function loadStroopTest() {
+            const testHTML = `
+                <h2>🎨 Teste de Stroop</h2>
+                <div class="instruction-box">
+                    <p><strong>Instruções:</strong> Identifique a <strong>COR DA TINTA</strong> da palavra, ignorando o significado.</p>
+                    <p>🎯 <em>Use as teclas: R(vermelho), A(azul), V(verde), M(marrom)</em></p>
+                    <div class="color-key">
+                        <div class="color-item"><div class="color-box" style="background: #dc3545;"></div>Vermelho (R)</div>
+                        <div class="color-item"><div class="color-box" style="background: #007bff;"></div>Azul (A)</div>
+                        <div class="color-item"><div class="color-box" style="background: #28a745;"></div>Verde (V)</div>
+                        <div class="color-item"><div class="color-box" style="background: #8B4513;"></div>Marrom (M)</div>
+                    </div>
+                </div>
+                <div id="stroop-stimulus" class="stroop-stimulus">-</div>
+                <div style="text-align: center;">
+                    <p>✅ <strong>Acertos:</strong> <span id="stroop-correct">0</span> | ❌ <strong>Erros:</strong> <span id="stroop-errors">0</span></p>
+                    <p>📊 <strong>Progresso:</strong> <span id="stroop-progress">0/25</span></p>
+                    <button class="btn" onclick="startStroopTest()">🎬 INICIAR TESTE</button>
+                </div>
+            `;
+            document.getElementById('test-content').innerHTML = testHTML;
+        }
+
+        let stroopTrials = [];
+        let stroopCurrentTrial = 0;
+        let stroopCorrect = 0;
+        let stroopErrors = 0;
+        let stroopStartTime;
+
+        function startStroopTest() {
+            stroopTrials = generateStroopTrials(25);
+            stroopCurrentTrial = 0;
+            stroopCorrect = 0;
+            stroopErrors = 0;
+
+            document.addEventListener('keydown', handleStroopKey);
+            showNextStroopTrial();
+        }
+
+        function generateStroopTrials(count) {
+            const colors = [
+                { name: 'VERMELHO', value: '#dc3545', key: 'KeyR' },
+                { name: 'AZUL', value: '#007bff', key: 'KeyA' },
+                { name: 'VERDE', value: '#28a745', key: 'KeyV' },
+                { name: 'MARROM', value: '#8B4513', key: 'KeyM' }
+            ];
+            
+            const colorNames = ['VERMELHO', 'AZUL', 'VERDE', 'MARROM'];
+            let trials = [];
+            
+            for (let i = 0; i < count; i++) {
+                const textColor = colors[Math.floor(Math.random() * colors.length)];
+                const textWord = colorNames[Math.floor(Math.random() * colorNames.length)];
+                
+                trials.push({
+                    word: textWord,
+                    color: textColor,
+                    isCongruent: textWord === textColor.name
+                });
+            }
+            return trials;
+        }
+
+        function showNextStroopTrial() {
+            if (stroopCurrentTrial >= stroopTrials.length) {
+                finishStroopTest();
+                return;
+            }
+            
+            const trial = stroopTrials[stroopCurrentTrial];
+            const stimulus = document.getElementById('stroop-stimulus');
+            
+            stimulus.textContent = trial.word;
+            stimulus.style.color = trial.color.value;
+            
+            document.getElementById('stroop-progress').textContent = `${stroopCurrentTrial + 1}/25`;
+            stroopStartTime = Date.now();
+        }
+
+        function handleStroopKey(event) {
+            const trial = stroopTrials[stroopCurrentTrial];
+            const isCorrect = (event.code === trial.color.key);
+            
+            if (isCorrect) {
+                stroopCorrect++;
+            } else {
+                stroopErrors++;
+            }
+
+            document.getElementById('stroop-correct').textContent = stroopCorrect;
+            document.getElementById('stroop-errors').textContent = stroopErrors;
+            
+            stroopCurrentTrial++;
+            showNextStroopTrial();
+        }
+
+        function finishStroopTest() {
+            document.removeEventListener('keydown', handleStroopKey);
+            
+            const accuracy = stroopCorrect / stroopTrials.length;
+            const score = accuracy * 100;
+            
+            participantData.tests['n2-stroop'] = {
+                correct: stroopCorrect,
+                errors: stroopErrors,
+                totalTrials: stroopTrials.length,
+                accuracy: accuracy,
+                score: Math.round(score)
+            };
+
+            finishTest('n2-stroop');
+        }
+
+        // =============================================
+        // TESTE N3 - IOWA GAMBLING
+        // =============================================
+        function loadGamblingTest() {
+            const testHTML = `
+                <h2>🎰 Teste de Tomada de Decisão</h2>
+                <div class="instruction-box">
+                    <p><strong>Instruções:</strong> Escolha entre os baralhos para maximizar seus ganhos. Alguns baralhos são mais vantajosos que outros.</p>
+                    <p>💡 <em>Baralhos A e B: alto risco | Baralhos C e D: baixo risco</em></p>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 30px 0;">
+                    <button class="btn" onclick="selectDeck('A')" style="background: #dc3545;">Baralho A</button>
+                    <button class="btn" onclick="selectDeck('B')" style="background: #fd7e14;">Baralho B</button>
+                    <button class="btn" onclick="selectDeck('C')" style="background: #28a745;">Baralho C</button>
+                    <button class="btn" onclick="selectDeck('D')" style="background: #20c997;">Baralho D</button>
+                </div>
+                <div style="text-align: center;">
+                    <p style="font-size: 1.5em;">💰 <strong>Saldo:</strong> R$ <span id="gambling-balance">2000</span></p>
+                    <p>🎯 <strong>Escolha:</strong> <span id="gambling-result">-</span></p>
+                    <p>📊 <strong>Escolhas restantes:</strong> <span id="gambling-remaining">40</span></p>
+                </div>
+            `;
+            document.getElementById('test-content').innerHTML = testHTML;
+        }
+
+        let gamblingBalance = 2000;
+        let gamblingChoices = [];
+        let remainingTrials = 40;
+
+        const decks = {
+            'A': { gains: [100, 150], losses: [250, 300, 350] }, // Risco
+            'B': { gains: [120, 180], losses: [300, 350, 400] }, // Risco
+            'C': { gains: [50, 60], losses: [20, 30, 40] },     // Seguro
+            'D': { gains: [40, 50], losses: [10, 20, 25] }      // Seguro
+        };
+
+        function selectDeck(deck) {
+            if (remainingTrials <= 0) return;
+            
+            const deckConfig = decks[deck];
+            const gain = deckConfig.gains[Math.floor(Math.random() * deckConfig.gains.length)];
+            const loss = Math.random() < 0.3 ? deckConfig.losses[Math.floor(Math.random() * deckConfig.losses.length)] : 0;
+            
+            const net = gain - loss;
+            gamblingBalance += net;
+            
+            gamblingChoices.push({
+                deck: deck,
+                gain: gain,
+                loss: loss,
+                net: net,
+                trial: 40 - remainingTrials + 1
+            });
+            
+            remainingTrials--;
+            
+            // Atualizar interface
+            document.getElementById('gambling-balance').textContent = gamblingBalance;
+            document.getElementById('gambling-result').textContent = `Baralho ${deck}: +R$ ${gain} ${loss > 0 ? `-R$ ${loss}` : ''}`;
+            document.getElementById('gambling-remaining').textContent = remainingTrials;
+            
+            if (remainingTrials <= 0) {
+                finishGamblingTest();
+            }
+        }
+
+        function finishGamblingTest() {
+            const advantageousChoices = gamblingChoices.filter(choice => 
+                choice.deck === 'C' || choice.deck === 'D'
+            ).length;
+            
+            const advantageRatio = advantageousChoices / gamblingChoices.length;
+            const score = advantageRatio * 100;
+            
+            participantData.tests['n3-gambling'] = {
+                finalBalance: gamblingBalance,
+                totalChoices: gamblingChoices.length,
+                advantageousChoices: advantageousChoices,
+                advantageRatio: advantageRatio,
+                score: Math.round(score),
+                rawData: gamblingChoices
+            };
+
+            finishTest('n3-gambling');
+        }
+
+        // =============================================
+        // TESTE N4 - DECISÃO LEXICAL
+        // =============================================
+        function loadLexicalTest() {
+            const testHTML = `
+                <h2>📝 Teste de Decisão Lexical</h2>
+                <div class="instruction-box">
+                    <p><strong>Instruções:</strong> Pressione SIM se for uma palavra real, NÃO se for uma palavra inventada.</p>
+                    <p>⚡ <em>Responda o mais rápido possível!</em></p>
+                </div>
+                <div id="lexical-stimulus" class="stimulus">-</div>
+                <div style="text-align: center;">
+                    <button class="btn" onclick="lexicalResponse(true)">👍 SIM (Palavra Real)</button>
+                    <button class="btn btn-secondary" onclick="lexicalResponse(false)">👎 NÃO (Palavra Inventada)</button>
+                    <p>📊 <strong>Progresso:</strong> <span id="lexical-progress">0/20</span></p>
+                    <p>✅ <strong>Acertos:</strong> <span id="lexical-correct">0</span> | ❌ <strong>Erros:</strong> <span id="lexical-errors">0</span></p>
+                </div>
+            `;
+            document.getElementById('test-content').innerHTML = testHTML;
+            
+            startLexicalTest();
+        }
+
+        let lexicalWords = [
+            { word: "CASA", isReal: true }, { word: "PEDRA", isReal: true }, { word: "SOL", isReal: true },
+            { word: "BLIMPO", isReal: false }, { word: "TRAPO", isReal: true }, { word: "ZUNIR", isReal: true },
+            { word: "FLOBER", isReal: false }, { word: "MESA", isReal: true }, { word: "GATO", isReal: true },
+            { word: "PRANTAR", isReal: false }, { word: "LUZ", isReal: true }, { word: "FLOR", isReal: true },
+            { word: "STROGO", isReal: false }, { word: "RIO", isReal: true }, { word: "MAR", isReal: true },
+            { word: "BLESTO", isReal: false }, { word: "NOITE", isReal: true }, { word: "DIA", isReal: true },
+            { word: "FRONGO", isReal: false }, { word: "AMOR", isReal: true }
+        ];
+
+        let lexicalPosition = 0;
+        let lexicalCorrect = 0;
+        let lexicalErrors = 0;
+
+        function startLexicalTest() {
+            lexicalPosition = 0;
+            lexicalCorrect = 0;
+            lexicalErrors = 0;
+            // Embaralhar palavras
+            lexicalWords.sort(() => Math.random() - 0.5);
+            showNextLexicalWord();
+        }
+
+        function showNextLexicalWord() {
+            if (lexicalPosition >= lexicalWords.length) {
+                finishLexicalTest();
+                return;
+            }
+            
+            const stimulus = document.getElementById('lexical-stimulus');
+            const currentWord = lexicalWords[lexicalPosition];
+            stimulus.textContent = currentWord.word;
+            
+            document.getElementById('lexical-progress').textContent = `${lexicalPosition + 1}/20`;
+        }
+
+        function lexicalResponse(response) {
+            const currentWord = lexicalWords[lexicalPosition];
+            const isCorrect = (response === currentWord.isReal);
+            
+            if (isCorrect) {
+                lexicalCorrect++;
+            } else {
+                lexicalErrors++;
+            }
+
+            document.getElementById('lexical-correct').textContent = lexicalCorrect;
+            document.getElementById('lexical-errors').textContent = lexicalErrors;
+            
+            lexicalPosition++;
+            showNextLexicalWord();
+        }
+
+        function finishLexicalTest() {
+            const accuracy = lexicalCorrect / lexicalWords.length;
+            const score = accuracy * 100;
+            
+            participantData.tests['n4-lexical'] = {
+                correct: lexicalCorrect,
+                errors: lexicalErrors,
+                total: lexicalWords.length,
+                accuracy: accuracy,
+                score: Math.round(score)
+            };
+
+            finishTest('n4-lexical');
+        }
+
+        // =============================================
+        // TESTE N5 - ROTAÇÃO MENTAL
+        // =============================================
+        function loadRotationTest() {
+            const testHTML = `
+                <h2>🔄 Teste de Rotação Mental</h2>
+                <div class="instruction-box">
+                    <p><strong>Instruções:</strong> As duas figuras são iguais, apenas rotacionadas? Responda SIM ou NÃO.</p>
+                    <p>🧠 <em>Teste de habilidades visuoespaciais e manipulação mental 3D.</em></p>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 40px; margin: 30px 0;">
+                    <div style="font-size: 4em;">▲</div>
+                    <div style="font-size: 4em;" id="rotation-stimulus">▲</div>
+                </div>
+                <div style="text-align: center;">
+                    <button class="btn" onclick="rotationResponse(true)">👍 SIM (São Iguais)</button>
+                    <button class="btn btn-secondary" onclick="rotationResponse(false)">👎 NÃO (São Diferentes)</button>
+                    <p>📊 <strong>Progresso:</strong> <span id="rotation-progress">0/15</span></p>
+                    <p>✅ <strong>Acertos:</strong> <span id="rotation-correct">0</span> | ❌ <strong>Erros:</strong> <span id="rotation-errors">0</span></p>
+                </div>
+            `;
+            document.getElementById('test-content').innerHTML = testHTML;
+            
+            startRotationTest();
+        }
+
+        let rotationPairs = [
+            { shape1: '▲', shape2: '▲', rotation: 0, same: true },
+            { shape1: '■', shape2: '■', rotation: 90, same: true },
+            { shape1: '●', shape2: '▲', rotation: 0, same: false },
+            { shape1: '◆', shape2: '◆', rotation: 180, same: true },
+            { shape1: '▲', shape2: '■', rotation: 0, same: false },
+            { shape1: '●', shape2: '●', rotation: 45, same: true },
+            { shape1: '◆', shape2: '▲', rotation: 0, same: false },
+            { shape1: '■', shape2: '●', rotation: 0, same: false },
+            { shape1: '▲', shape2: '▲', rotation: 120, same: true },
+            { shape1: '●', shape2: '◆', rotation: 0, same: false },
+            { shape1: '■', shape2: '■', rotation: 270, same: true },
+            { shape1: '◆', shape2: '●', rotation: 0, same: false },
+            { shape1: '▲', shape2: '■', rotation: 0, same: false },
+            { shape1: '●', shape2: '●', rotation: 90, same: true },
+            { shape1: '◆', shape2: '◆', rotation: 60, same: true }
+        ];
+
+        let rotationPosition = 0;
+        let rotationCorrect = 0;
+        let rotationErrors = 0;
+
+        function startRotationTest() {
+            rotationPosition = 0;
+            rotationCorrect = 0;
+            rotationErrors = 0;
+            // Embaralhar pares
+            rotationPairs.sort(() => Math.random() - 0.5);
+            showNextRotationPair();
+        }
+
+        function showNextRotationPair() {
+            if (rotationPosition >= rotationPairs.length) {
+                finishRotationTest();
+                return;
+            }
+            
+            const pair = rotationPairs[rotationPosition];
+            document.getElementById('rotation-stimulus').textContent = pair.shape2;
+            document.getElementById('rotation-stimulus').style.transform = `rotate(${pair.rotation}deg)`;
+            
+            document.getElementById('rotation-progress').textContent = `${rotationPosition + 1}/15`;
+        }
+
+        function rotationResponse(response) {
+            const pair = rotationPairs[rotationPosition];
+            const isCorrect = (response === pair.same);
+            
+            if (isCorrect) {
+                rotationCorrect++;
+            } else {
+                rotationErrors++;
+            }
+
+            document.getElementById('rotation-correct').textContent = rotationCorrect;
+            document.getElementById('rotation-errors').textContent = rotationErrors;
+            
+            rotationPosition++;
+            showNextRotationPair();
+        }
+
+        function finishRotationTest() {
+            const accuracy = rotationCorrect / rotationPairs.length;
+            const score = accuracy * 100;
+            
+            participantData.tests['n5-rotation'] = {
+                correct: rotationCorrect,
+                errors: rotationErrors,
+                total: rotationPairs.length,
+                accuracy: accuracy,
+                score: Math.round(score)
+            };
+
+            finishTest('n5-rotation');
+        }
+
+        // =============================================
+        // FUNÇÕES AUXILIARES
+        // =============================================
+        function finishTest(testType) {
+            const testCard = document.getElementById(`test-${testType}`);
+            testCard.classList.add('completed');
+            testCard.innerHTML += '<div class="badge">✅</div>';
+            
+            updateProgress();
+            
+            document.getElementById('test-container').classList.remove('active');
+            document.getElementById('test-selection').classList.add('active');
+        }
+
+        function updateProgress() {
+            const completedTests = Object.keys(participantData.tests).length;
+            const totalTests = 7;
+            const progress = (completedTests / totalTests) * 100;
+            
+            document.getElementById('global-progress').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `${Math.round(progress)}% Completo`;
+            
+            if (completedTests === totalTests) {
+                document.getElementById('results-btn').disabled = false;
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+
+        // =============================================
+        // CÁLCULO DE RESULTADOS
+        // =============================================
+        function calculateResults() {
+            // Calcular escores dos pilares com pesos
+            const n1Reaction = participantData.tests['n1-reaction']?.score || 50;
+            const n1CPT = participantData.tests['n1-cpt']?.score || 50;
+            const n1Score = Math.round((n1Reaction * 0.6 + n1CPT * 0.4));
+
+            const n2NBack = participantData.tests['n2-nback']?.score || 50;
+            const n2Stroop = participantData.tests['n2-stroop']?.score || 50;
+            const n2Score = Math.round((n2NBack * 0.5 + n2Stroop * 0.5));
+
+            const n3Score = participantData.tests['n3-gambling']?.score || 50;
+            const n4Score = participantData.tests['n4-lexical']?.score || 50;
+            const n5Score = participantData.tests['n5-rotation']?.score || 50;
+
+            // Calcular NGES (média geométrica)
+            const nges = Math.round(Math.pow(n1Score * n2Score * n3Score * n4Score * n5Score, 1/5));
+
+            // Atualizar interface com resultados
+            updateResultsInterface(n1Score, n2Score, n3Score, n4Score, n5Score, nges);
+            generateDetailedAnalysis(n1Score, n2Score, n3Score, n4Score, n5Score, nges);
+            updateTestComparisonTable();
+
+            // Mostrar tela de resultados
+            document.getElementById('test-selection').classList.remove('active');
+            document.getElementById('results-screen').classList.add('active');
+        }
+
+        function updateResultsInterface(n1, n2, n3, n4, n5, nges) {
+            document.getElementById('n1-score').textContent = n1;
+            document.getElementById('n2-score').textContent = n2;
+            document.getElementById('n3-score').textContent = n3;
+            document.getElementById('n4-score').textContent = n4;
+            document.getElementById('n5-score').textContent = n5;
+            document.getElementById('nges-score').textContent = nges;
+
+            // Classificação NGES
+            let classification = '';
+            let description = '';
+            
+            if (nges >= 85) {
+                classification = '🎯 OTIMIZADO';
+                description = 'Recursos neurais de alto nível. Excelente para posições de liderança e ambientes complexos.';
+            } else if (nges >= 70) {
+                classification = '✅ FUNCIONAL FORTE';
+                description = 'Bom funcionamento integrado. Desempenho confiável na maioria das situações.';
+            } else if (nges >= 55) {
+                classification = '⚡ FUNCIONAL';
+                description = 'Desempenho adequado para demandas rotineiras. Oportunidades de desenvolvimento identificadas.';
+            } else if (nges >= 40) {
+                classification = '⚠️ VULNERÁVEL';
+                description = 'Processamento neural ineficiente em algumas áreas. Beneficia-se de estratégias de otimização.';
+            } else {
+                classification = '🚨 DEFICITÁRIO';
+                description = 'Comprometimento significativo na eficiência neural. Recomenda-se avaliação especializada.';
+            }
+
+            document.getElementById('nges-classification').textContent = classification;
+            document.getElementById('nges-description').textContent = description;
+        }
+
+        function generateDetailedAnalysis(n1, n2, n3, n4, n5, nges) {
+            let analysis = '<div style="display: grid; gap: 15px; margin-top: 20px;">';
+            
+            analysis += `<div style="padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                <h4>⚡ N1 - Atenção e Velocidade (${n1})</h4>
+                <p>${getN1Analysis(n1)}</p>
+            </div>`;
+            
+            analysis += `<div style="padding: 15px; background: #e3f2fd; border-radius: 10px;">
+                <h4>💭 N2 - Controle Executivo (${n2})</h4>
+                <p>${getN2Analysis(n2)}</p>
+            </div>`;
+            
+            analysis += `<div style="padding: 15px; background: #fff3cd; border-radius: 10px;">
+                <h4>🎯 N3 - Tomada de Decisão (${n3})</h4>
+                <p>${getN3Analysis(n3)}</p>
+            </div>`;
+            
+            analysis += `<div style="padding: 15px; background: #fce4ec; border-radius: 10px;">
+                <h4>💬 N4 - Processamento Verbal (${n4})</h4>
+                <p>${getN4Analysis(n4)}</p>
+            </div>`;
+            
+            analysis += `<div style="padding: 15px; background: #e8eaf6; border-radius: 10px;">
+                <h4>📊 N5 - Habilidades Espaciais (${n5})</h4>
+                <p>${getN5Analysis(n5)}</p>
+            </div>`;
+            
+            analysis += '</div>';
+            
+            document.getElementById('analysis-content').innerHTML = analysis;
+        }
+
+        function getN1Analysis(score) {
+            if (score >= 85) return "Excelente velocidade de processamento e atenção sustentada. Ideal para tarefas que exigem foco prolongado.";
+            if (score >= 70) return "Boa capacidade atencional. Pode manter o foco na maioria das situações do dia a dia.";
+            if (score >= 55) return "Atenção adequada para tarefas rotineiras. Pode beneficiar-se de pausas estratégicas.";
+            return "Sugere dificuldade em manter a atenção sustentada. Recomenda-se ambiente com menos distrações.";
+        }
+
+        function getN2Analysis(score) {
+            if (score >= 85) return "Controle executivo excepcional. Grande capacidade de multitarefa e resolução de problemas complexos.";
+            if (score >= 70) return "Bom controle inibitório e flexibilidade mental. Adapta-se bem a mudanças.";
+            if (score >= 55) return "Controle executivo funcional. Pode ter dificuldade com interferências simultâneas.";
+            return "Dificuldade com controle inibitório. Beneficia-se de abordagens passo a passo.";
+        }
+
+        function getN3Analysis(score) {
+            if (score >= 85) return "Tomada de decisão estratégica excelente. Avalia riscos e benefícios de forma equilibrada.";
+            if (score >= 70) return "Boa capacidade de decisão. Considera consequências de médio prazo.";
+            if (score >= 55) return "Decisões baseadas mais em recompensas imediatas. Pode se beneficiar de análise mais ponderada.";
+            return "Tendência a decisões impulsivas. Recomenda-se pausar antes de escolhas importantes.";
+        }
+
+        function getN4Analysis(score) {
+            if (score >= 85) return "Processamento verbal rápido e eficiente. Vocabulário amplo e acesso lexical ágil.";
+            if (score >= 70) return "Boa fluência verbal. Compreende e processa linguagem com facilidade.";
+            if (score >= 55) return "Processamento verbal adequado. Pode ter dificuldade com termos mais complexos.";
+            return "Velocidade de processamento verbal reduzida. Beneficia-se de leitura e expansão de vocabulário.";
+        }
+
+        function getN5Analysis(score) {
+            if (score >= 85) return "Habilidades visuoespaciais excepcionais. Grande capacidade de manipulação mental 3D.";
+            if (score >= 70) return "Boa percepção espacial. Navega e manipula objetos mentais com facilidade.";
+            if (score >= 55) return "Habilidades espaciais funcionais. Pode ter dificuldade com rotações complexas.";
+            return "Dificuldade com tarefas espaciais. Beneficia-se de treino com quebra-cabeças e jogos 3D.";
+        }
+
+        function updateTestComparisonTable() {
+            const tbody = document.getElementById('test-comparison-body');
+            tbody.innerHTML = '';
+            
+            const tests = [
+                { id: 'n1-reaction', name: 'Tempo de Reação', pilar: 'N1' },
+                { id: 'n1-cpt', name: 'Atenção Sustentada', pilar: 'N1' },
+                { id: 'n2-nback', name: 'Memória N-Back', pilar: 'N2' },
+                { id: 'n2-stroop', name: 'Teste de Stroop', pilar: 'N2' },
+                { id: 'n3-gambling', name: 'Tomada de Decisão', pilar: 'N3' },
+                { id: 'n4-lexical', name: 'Decisão Lexical', pilar: 'N4' },
+                { id: 'n5-rotation', name: 'Rotação Mental', pilar: 'N5' }
+            ];
+            
+            tests.forEach(test => {
+                const testData = participantData.tests[test.id];
+                if (testData) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><strong>${test.name}</strong><br><small>${test.pilar}</small></td>
+                        <td>${testData.score}</td>
+                        <td>${getScoreClassification(testData.score)}</td>
+                        <td>${testData.interpretation || getGenericInterpretation(testData.score)}</td>
+                    `;
+                    tbody.appendChild(row);
+                }
+            });
+        }
+
+        function getScoreClassification(score) {
+            if (score >= 85) return '🎯 Otimizado';
+            if (score >= 70) return '✅ Forte';
+            if (score >= 55) return '⚡ Funcional';
+            if (score >= 40) return '⚠️ Vulnerável';
+            return '🚨 Deficitário';
+        }
+
+        function getGenericInterpretation(score) {
+            if (score >= 85) return 'Desempenho excepcional';
+            if (score >= 70) return 'Acima da média';
+            if (score >= 55) return 'Na média';
+            if (score >= 40) return 'Abaixo da média';
+            return 'Necessita atenção';
+        }
+
+        function downloadPDF() {
+            alert('📊 Relatório NEX STEP PRO gerado com sucesso!\n\nEm uma implementação completa, este botão geraria um PDF profissional com todos os resultados e análises.');
+        }
+
+        function restartAssessment() {
+            participantData = {
+                tests: {},
+                scores: {},
+                startTime: new Date(),
+                demographic: {}
+            };
+
+            document.querySelectorAll('.test-card').forEach(card => {
+                card.classList.remove('completed');
+                const badge = card.querySelector('.badge');
+                if (badge) badge.remove();
+            });
+
+            document.getElementById('results-btn').disabled = true;
+            document.getElementById('global-progress').style.width = '0%';
+            document.getElementById('progress-text').textContent = '0% Completo';
+            document.getElementById('completion-message').style.display = 'none';
+
+            document.getElementById('results-screen').classList.remove('active');
+            document.getElementById('welcome-screen').classList.add('active');
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧠 NEX STEP PRO - Ferramenta Completa Carregada');
+        });
+    </script>
 </body>
 </html>
